@@ -1,9 +1,9 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
 const request = require('request-promise');
-
-request(
-    "https://dribbble.com/search/shots/popular/web-design?q=shop",
+for (let y = 1; y < 50; y++) {
+  request(
+    "https://dribbble.com/search/shots/popular/web-design?q=shop&page="+y,
     (error, response, html) => {
       if (!error && response.statusCode == 200) {
         var list = [];
@@ -18,21 +18,17 @@ request(
           console.log(content);
 
           list.push({
+            i : i,
             url: url,
             content: content
           });
-          // noscript.each(function (i, el){
-          //     // const img = $(el).tagName('img');
-          //     console.log($(el).children('img').eq(0).attr('src'));
-          //     // const src = img.html();
-          //     // list.push(src);
-          // });
         });
-        fs.writeFileSync('data.json', JSON.stringify(list));
+        fs.writeFileSync('data'+y+'.json', JSON.stringify(list));
       } else {
         console.log(error);
       }
     }
   );
+}
 
 
