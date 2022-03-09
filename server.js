@@ -1,9 +1,10 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
 const request = require('request-promise');
-for (let y = 1; y < 50; y++) {
+const category = "shop";
+for (let y = 1; y < 2; y++) {
   request(
-    "https://dribbble.com/search/shots/popular/web-design?q=shop&page="+y,
+    "https://dribbble.com/search/shots/popular/web-design?q="+category+"&page="+y,
     (error, response, html) => {
       if (!error && response.statusCode == 200) {
         var list = [];
@@ -14,8 +15,8 @@ for (let y = 1; y < 50; y++) {
           const img = noscript.split('?')[0];
           const url = img.split('"')[1];// url image
 
-          const content = noscript.split('?')[1].split('alt="')[1];
-          console.log(content);
+          var content = noscript.split('?')[1].split('alt="')[1];
+          var content = content.trim().slice(0,-2);
 
           list.push({
             i : i,
