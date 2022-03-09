@@ -4,21 +4,23 @@ const request = require('request-promise');
 
 request('https://dribbble.com/search/shots/popular/web-design?q=shop', (error, response, html) => {
     if(!error && response.statusCode == 200) {
+        var list = [];
         const $ = cheerio.load(html); // load HTML
-    
-        $('.js-thumbnail-grid shots-grid group dribbbles container-fluid is-scrolled').each((i, el) => {
-            $(el).children('.shot-thumbnail js-thumbnail shot-thumbnail-container').each((i, el) => {
-                $(el).children('.js-thumbnail-base shot-thumbnail-base disabled-shot-section dribbble-shot dribbble video multi-shot').each((i, el) => {
-                    $(el).children('.js-thumbnail-placeholder shot-thumbnail-placeholder').each((i, el) => {
-                        log($(el))
-                    });
-                });  
+        const ul = $('.shot-thumbnail').find('div > figure'); // find all images
+        ul.each(function (i, el){
+            const noscript = $(el).find('noscript');
+            noscript.each(function (i, el){
+                // const img = $(el).tagName('img');
+                console.log($(el).first().html());
+                // const src = img.html();
+                // list.push(src);
             });
         });
+        console.dir(list);
     }
-      else {
-        console.log(error);
-      }
+    else {
+    console.log(error);
+    }
 });
 
 
